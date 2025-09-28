@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: voiceowl-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: voiceowl-app
+  template:
+    metadata:
+      labels:
+        app: voiceowl-app
+    spec:
+      containers:
+      - name: app
+        image: 831926624156.dkr.ecr.us-east-1.amazonaws.com/voiceowl-app:latest
+        imagePullPolicy: Always   # always pull from ECR
+        ports:
+        - containerPort: 3000
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1001
+          allowPrivilegeEscalation: false
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "250m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: voiceowl-service
+spec:
+  type: LoadBalancer   # expose app externally
+  selector:
+    app: voiceowl-app
+  ports:
+  - port: 80
+    targetPort: 3000

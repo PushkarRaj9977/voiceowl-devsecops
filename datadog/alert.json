@@ -1,0 +1,16 @@
+{
+  "name": "High CPU usage in EKS",
+  "type": "metric alert",
+  "query": "avg(last_5m):avg:kubernetes.cpu.usage.total{cluster_name:voiceowl-eks} > 80",
+  "message": "High CPU usage detected on EKS cluster voiceowl-eks",
+  "tags": ["eks", "voiceowl"],
+  "options": {
+    "notify_audit": true,
+    "locked": false,
+    "timeout_h": 0,
+    "silenced": {},
+    "thresholds": {
+      "critical": 80
+    }
+  }
+}
