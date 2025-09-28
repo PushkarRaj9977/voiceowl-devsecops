@@ -18,6 +18,7 @@ jobs:
           node-version: "18"
 
       - name: Install deps
+        working-directory: ./app
         run: npm install
 
       - name: Run static code analysis (Semgrep)
@@ -26,7 +27,7 @@ jobs:
           config: "p/ci"
 
       - name: Build Docker image
-        run: docker build -t voiceowl-app:latest .
+        run: docker build -t voiceowl-app:latest ./app
 
       - name: Scan Docker image with Trivy
         uses: aquasecurity/trivy-action@master
