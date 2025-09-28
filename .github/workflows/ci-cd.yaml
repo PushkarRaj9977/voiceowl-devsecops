@@ -18,6 +18,7 @@ jobs:
           node-version: "18"
 
       - name: Install deps
+        working-directory: ./
         run: npm install
 
       - name: Run static code analysis (Semgrep)
